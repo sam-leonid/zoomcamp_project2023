@@ -9,7 +9,7 @@ import zipfile
 import os
 
 @task(retries=3, log_prints=True)
-def download_dataset(dataset_url: str, year:int) -> str:
+def download_dataset(year:int) -> str:
     """Read flight data from web into pandas DataFrame"""
     path = "data"
     file_name = f"Combined_Flights_{year}.parquet"
