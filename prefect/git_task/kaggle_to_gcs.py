@@ -11,6 +11,7 @@ import os
 @task(retries=3, log_prints=True)
 def download_dataset(year:int) -> str:
     """Read flight data from web into pandas DataFrame"""
+    print(os.path.abspath(os.getcwd()))
     path = "data"
     file_name = f"Combined_Flights_{year}.parquet"
     dataset_name = "robikscube/flight-delay-dataset-20182022"
@@ -18,6 +19,7 @@ def download_dataset(year:int) -> str:
     command = f"kaggle datasets download " + \
             f"-f {file_name} -p {path} {dataset_name}"
 
+    print(command)
     process = Popen(command, shell=True, stdout=PIPE, stderr=STDOUT, close_fds=True)
     process.wait()
     if process.returncode != 0:
@@ -26,7 +28,7 @@ def download_dataset(year:int) -> str:
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
         zip_ref.extractall(path)
     os.remove(zip_file)
-
+    print(f"{path}/{file_name}")
     # df = pd.read_parquet(f"{path}/{file_name}")
     return f"{path}/{file_name}"
 
@@ -35,9 +37,9 @@ def write_gcs(path: str) -> None:
     """Upload local parquet file to GCS"""
     from prefect.filesystems import GCS
     gcs_block = GCS.load("zoom-gcs")
-    gcs_block.put_directory(local_path=path, to_path=path)
+    # gcs_block.put_directory(local_path=path, to_path=path)
     # gcs_block = GcsBucket.load("zoom-gcs")
-    # gcs_block.upload_from_path(from_path=path, to_path=path)
+    gcs_block.upload_from_path(from_path=path, to_path=path)
     return
 
 @flow()

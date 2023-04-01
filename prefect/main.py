@@ -16,7 +16,7 @@ def git_clone(from_path:str,
     return
 
 @flow()
-def exec_clone_code(years:List[int]=[2018,2019,2020,2021,2022]) -> None:
+def exec_clone_code(years:List[int]) -> None:
     from data.code.prefect.git_task.kaggle_to_gcs import etl_web_to_gcs_main
     etl_web_to_gcs_main(years=years)
     
@@ -25,7 +25,7 @@ def exec_clone_code(years:List[int]=[2018,2019,2020,2021,2022]) -> None:
 def git_flow(from_path:str = "prefect/git_task",
              local_path:str = "data/code",
              file_name:str = "kaggle_to_gcs.py",
-             year:int = 2020):
+             years:List[int] = [2018,2019,2020,2021,2022]):
     git_clone(from_path, local_path)
     exec_clone_code(years)
     
