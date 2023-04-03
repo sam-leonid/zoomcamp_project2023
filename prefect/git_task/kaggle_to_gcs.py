@@ -40,7 +40,7 @@ def write_gcs(file_path: str, to_path: str) -> None:
 
 @flow()
 def etl_web_to_gcs_main(from_path: str,
-                        to_path: str
+                        to_path: str,
                         years: List[int] = [2018,2019,2020,2021,2022]):
     for year in years:
         etl_web_to_gcs(year, from_path, to_path)
