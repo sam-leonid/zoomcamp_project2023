@@ -9,17 +9,15 @@ import zipfile
 import os
 
 @task(retries=3, log_prints=True)
-def download_dataset(year:int) -> str:
+def download_dataset(year:int, path:str) -> str:
     """Read flight data from web into pandas DataFrame"""
-    print(os.path.abspath(os.getcwd()))
-    path = "data"
     file_name = f"Combined_Flights_{year}.parquet"
     dataset_name = "robikscube/flight-delay-dataset-20182022"
     zip_file = f"{path}/{file_name}.zip"
     command = f"kaggle datasets download " + \
             f"-f {file_name} -p {path} {dataset_name}"
 
-    print(command)
+    print(f"{command}")
     process = Popen(command, shell=True, stdout=PIPE, stderr=STDOUT, close_fds=True)
     process.wait()
     if process.returncode != 0:
@@ -27,19 +25,17 @@ def download_dataset(year:int) -> str:
 
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
         zip_ref.extractall(path)
+    print(f"Path files {os.listdir(path)}")
     os.remove(zip_file)
-    print(f"{path}/{file_name}")
-    # df = pd.read_parquet(f"{path}/{file_name}")
+    print(f"Path of file: {path}/{file_name}")
     return f"{path}/{file_name}"
 
 @task()
-def write_gcs(path: str) -> None:
+def write_gcs(file_path: str, to_path: str) -> None:
     """Upload local parquet file to GCS"""
     from prefect.filesystems import GCS
     gcs_block = GCS.load("zoom-gcs")
-    gcs_block.put_directory(local_path=path, to_path=path)
-    # gcs_block = GcsBucket.load("zoom-gcs")
-    # gcs_block.upload_from_path(from_path=path, to_path=path)
+    gcs_block.put_directory(local_path=from_path, to_path=to_path)
     return
 
 @flow()
@@ -48,10 +44,12 @@ def etl_web_to_gcs_main(years: List[int] = [2018,2019,2020,2021,2022]):
         etl_web_to_gcs(year)
 
 @flow()
-def etl_web_to_gcs(year: int = 2020) -> None:
+def etl_web_to_gcs(year: int = 2020, 
+                   from_path: str,
+                   to_path: str) -> None:
     """The main ETL function"""
-    file_path = download_dataset(year)
-    write_gcs(file_path)
+    file_path = download_dataset(year, from_path)
+    write_gcs(file_path, to_path)
 
 
 if __name__ == "__main__":
