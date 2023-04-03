@@ -35,7 +35,7 @@ def write_gcs(file_path: str, to_path: str) -> None:
     """Upload local parquet file to GCS"""
     from prefect.filesystems import GCS
     gcs_block = GCS.load("zoom-gcs")
-    gcs_block.put_directory(local_path=from_path, to_path=to_path)
+    gcs_block.put_directory(local_path=file_path, to_path=to_path)
     return
 
 @flow()
