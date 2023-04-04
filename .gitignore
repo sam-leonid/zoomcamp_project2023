@@ -1,3 +1,5 @@
+__pycache__/
+*.py[cod]
 terraform/.terraform/*
 terraform/.terraform.lock.hcl
 terraform/terraform.tfstate

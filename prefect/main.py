@@ -28,11 +28,12 @@ def exec_clone_code(years:List[int],
 @flow()
 def git_flow(from_path:str = "prefect/git_task",
              local_path:str = "data",
+             download_path:str = "",
              gcs_path:str = "data",
              file_name:str = "kaggle_to_gcs.py",
              years:List[int] = [2018,2019,2020,2021,2022]):
     git_clone(from_path, local_path)
-    exec_clone_code(years, local_path, gcs_path)
+    exec_clone_code(years=years, local_path=download_path, gcs_path=gcs_path)
     
 
 if __name__ == "__main__":
