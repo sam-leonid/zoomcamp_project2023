@@ -3,6 +3,7 @@
 select
     -- flight info
     cast(FlightDate as timestamp) as FlightDate,
+    YEAR(cast(FlightDate as timestamp)) as YearDate, 
     cast(Origin as string) as Origin,
     cast(Dest as string) as Dest,
     Cancelled,
