@@ -29,22 +29,6 @@ select
     cast(DestAirportID as integer) as DestAirportID,
     cast(DestCityName as string) as DestCityName,
     cast(DestStateName as string) as DestStateName,
-
-   -- identifiers
-    {{ dbt_utils.surrogate_key(['vendorid', 'tpep_pickup_datetime']) }} as tripid,
-    cast(vendorid as integer) as vendorid,
-    cast(ratecodeid as integer) as ratecodeid,
-    cast(pulocationid as integer) as  pickup_locationid,
-    cast(dolocationid as integer) as dropoff_locationid,
-    
-    -- timestamps
-    cast(tpep_pickup_datetime as timestamp) as pickup_datetime,
-    cast(tpep_dropoff_datetime as timestamp) as dropoff_datetime,
-    
-    -- trip info
-    store_and_fwd_flag,
-    cast(passenger_count as integer) as passenger_count,
-    cast(trip_distance as numeric) as trip_distance,
 from {{ source('staging','flights_external') }}
 
 
