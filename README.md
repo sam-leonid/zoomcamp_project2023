@@ -39,11 +39,11 @@ DBT tool: tool for effective and fast data transform from raw to core and datama
 	```sh
 	 terraform init
   ```
-* **Check that you're creating the correct resources (GCS bucket and BigQuery dataset)**:
+2. Check that you're creating the correct resources (GCS bucket and BigQuery dataset):
     ```sh
     terraform plan
     ```
-* **Create the resources**:
+3. Create the resources:
     ```sh
     terraform apply
     ```
