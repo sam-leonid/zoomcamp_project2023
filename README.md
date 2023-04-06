@@ -1,6 +1,6 @@
 # Architecture
 
-
+[Architecture](https://github.com/sam-leonid/zoomcamp_project2023/blob/main/imgs/diagram.png)
 # Problem
 
 The aim of the project is show some statistics for flights in last 5 years.
@@ -93,3 +93,5 @@ dbt run --var 'is_test: false'
 **5**. Create dashboard using new table 
 
 Using table total_flights create dashboard using looker studio.
+
+[Dashboard](https://github.com/sam-leonid/zoomcamp_project2023/blob/main/imgs/db.png)
