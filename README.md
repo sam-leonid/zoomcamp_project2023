@@ -36,14 +36,19 @@ DBT tool: tool for effective and fast data transform from raw to core and datama
 **1**. Create infastucture in GCS using Terraform:
 
 1. Initialize terraform:
-	```sh
+	
+  ```sh
 	 terraform init
   ```
+
 2. Check that you're creating the correct resources (GCS bucket and BigQuery dataset):
+   
     ```sh
     terraform plan
     ```
+
 3. Create the resources:
+    
     ```sh
     terraform apply
     ```
